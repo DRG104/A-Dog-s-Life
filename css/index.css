@@ -1,0 +1,131 @@
+body {
+    background-color: rgb(32, 32, 32);
+}
+
+#game-screen {
+    display: flex;
+    position: relative;
+    top: 100px;
+    margin: auto;
+    border: 5px outset white;
+    height: 720px;
+    width: 1280px;
+}
+
+#background {
+    /* background-image: url("../images/titleimage.jpg"); */
+    background-size: cover;
+    background-color: black;
+    overflow: hidden;
+    height: 720px;
+    width: 1280px;
+}
+
+#audio-container {
+    position: relative;
+    float: right;
+    right: 80px;
+    top: 10px;
+}
+
+
+.audio-button {
+    border-radius: 50%;
+    margin-left: 10px;
+    border: 1px solid white;
+    cursor: pointer;
+}
+
+#title-screen {
+    display: block;
+    position: absolute;
+    right: 225px;
+    top: 100px;
+    height: 500px;
+    width: 800px;
+    cursor: pointer;
+    border: 8px double white;
+    background-color: rgba(5, 76, 139, 0.76);
+}
+
+h1 {
+    position: relative;
+    text-align: center;
+    top: 100px;
+    font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    font-weight: bolder;
+    font-size: 100px;
+    text-shadow: 15px 6px rgb(0, 0, 0);
+    color: white;
+}
+
+h2 {
+    position: relative;
+    text-align: center;
+    top: 100px;
+    text-shadow: 2px 2px rgb(0, 0, 0);
+    color: white;
+}
+
+#character-container {
+    position: absolute;
+    left: 400px;
+    top: 44px;
+    height: 500px;
+    width: 500px;
+}
+
+#character {
+    display: block;
+    background-repeat: no-repeat;
+    background-size: cover;
+    height: 500px;
+}
+
+#text-box {
+    display: block;
+    position: absolute;
+    left: 13px;
+    bottom: 10px;
+    height: 150px;
+    width: 1160px;
+    padding: 10px 20px 10px 60px;
+    overflow: auto;
+    cursor: pointer;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    border: 8px double white;
+    text-shadow: 2px 2px rgb(0, 0, 0);
+    background-color: rgba(5, 76, 139, 0.76);
+}
+
+#player-options {
+    display: block;
+    position: absolute;
+    right: 330px;
+    top: 150px;
+    height: 300px;
+    width: 600px;
+    /* border: 8px double white;
+    background-color: rgba(5, 76, 139, 0.76); */
+}
+
+.options {
+    display: block;
+    position: relative;
+    text-align: center;
+    padding-top: 20px;
+    margin: 20px;
+    right: 8px;
+    bottom: 50px;
+    height: 60px;
+    width: 550px;
+    cursor: pointer;
+    font-size: 30px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+    color: white;
+    border: 8px inset white;
+    text-shadow: 2px 2px rgb(0, 0, 0);
+    background-color: rgba(5, 76, 139, 0.76);
+}
