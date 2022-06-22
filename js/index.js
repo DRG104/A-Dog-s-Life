@@ -72,22 +72,38 @@ function displayChar(num) {
 }
 // displayChar()
 
-// const choiceOne = choiceBoxOne.addEventListener("click", () => {
-//     console.log("Option 1")
-// })
+function advanceDialogue(dialogue, choice) {
+    let textIndex = -1
+    textBox.addEventListener("click", () => {
+        console.log("Textbox click")
+        console.log(textIndex)
+        if (textIndex === dialogue.length - 1) {
+            choice()
+            clear(textBox, choice)
+        } else {
+            textIndex++
+            textChange(`${dialogue[textIndex]}`)
+        }
+    })
+}
 
-// const choiceTwo = choiceBoxTwo.addEventListener("click", () => {
-//     console.log("Option 2")
-// })
+// function makeChoice2() {
+//     choiceBoxOne.style.display = "block"
+//     choiceBoxTwo.style.display = "block"
+// }
 
-// const choiceThree = choiceBoxThree.addEventListener("click", () => {
-//     console.log("Option 3")
-// })
+// function makeChoice3() {
+//     choiceBoxOne.style.display = "block"
+//     choiceBoxTwo.style.display = "block"
+//     choiceBoxThree.style.display = "block"
+// }
 
-// const advanceText = textBox.addEventListener("click", () => {
-//     textBox.innerText = "Press me to start!"
-//     console.log("This is the text box!")
-// })
+function hideChoice() {
+    choiceBoxOne.style.display = "none"
+    choiceBoxTwo.style.display = "none"
+    choiceBoxThree.style.display = "none"
+}
+
 
 function textChange (text) {
     textBox.innerText = text
@@ -129,12 +145,13 @@ document.addEventListener("DOMContentLoaded", () => {
 const titleScreen = () => {
     // background.style.backgroundImage = "url('./images/titleimage.jpg')"
     displayBackground(0)
-    // playMusic(0)
+    playMusic(0)
     choiceBoxThree.style.display = "none"
     titleBox.style.display = "block"
     titleBox.addEventListener("click", () => {
         console.log("to scene one!")
         sceneOne()
+        clear(titleBox, sceneOne)
     })
 }
 
@@ -153,23 +170,8 @@ const sceneOne = () => {
         "He is looking for a home.",
         "Will you help him?"
     ]
-    
-    function advanceDialogue(dialogue) {
-        let textIndex = -1
-
-        textBox.addEventListener("click", () => {
-            // textIndex++
-            console.log("Textbox click")
-            console.log(textIndex)
-            if (textIndex === dialogue.length - 1) {
-                choiceOne()
-            } else {
-                textIndex++
-                textChange(`${dialogue[textIndex]}`)
-            }
-        })
-    }
-    advanceDialogue(dialogueOne)
+    advanceDialogue(dialogueOne, choiceOne)
+    clear(textBox, advanceDialogue)
 }
 
 const choiceOne = () => {
@@ -178,19 +180,14 @@ const choiceOne = () => {
     optionText1("Yes")
     optionText2("No")
     choiceBoxOne.addEventListener("click", () => {
-        // choiceBoxOne.removeEventListener("click")
-        // console.log("choiceboxone")
-        // choiceBoxOne.style.display = "none"
-        // choiceBoxTwo.style.display = "none"
         sceneOneA()
+        clear(choiceBoxOne, sceneOneA)
+        clear(textBox, advanceDialogue)
     })
     choiceBoxTwo.addEventListener("click", () => {
-        // choiceBoxTwo.removeEventListener("click")
-        // choiceBoxOne.style.display = "none"
-        // choiceBoxTwo.style.display = "none"
         sceneOneB()
+        clear(choiceBoxTwo, sceneOneB)
     })
-
 }
 
 
@@ -198,24 +195,29 @@ const choiceOne = () => {
 
 
 const sceneOneA = () => {
+    clear(textBox, advanceDialogue)
     console.log("Scene1-A")
     // choiceBoxOne.removeEventListener("click")
     choiceBoxOne.style.display = "none"
     choiceBoxTwo.style.display = "none"
     let dialogueOneA = [
-        "Meet Miso the dog.",
-        "No one knows where this little guy came from.",
-        "Or where he even wants to go.",
-        "But one thing is clear...",
-        "He is looking for a home.",
-        "Will you help him?"
+        "That's great!",
+        "Anyway, you've probably figured it out but just click the text box below to advance the text.",
+        "You can pause or play the music using the buttons at the top right of the screen.",
+        "You're choices will guide Miso on his journey.",
+        "That's all, good luck!",
+        "Help Miso reach a happy ending!",
+        "Or else..."
     ]
-    advanceDialogue(dialogueOneA)
+    advanceDialogue(dialogueOneA, choiceTwo)
 }
 
 const sceneOneB = () => {
-    // choiceBoxTwo.removeEventListener("click")
     choiceBoxOne.style.display = "none"
     choiceBoxTwo.style.display = "none"
     textChange("You monster!")
+}
+
+const choiceTwo = () => {
+    console.log("you made it")
 }
