@@ -50,6 +50,7 @@ function playMusic (num) {
     })
 }
 
+
 let backgroundImage = [
     "images/titleimage.jpg",  
     "images/parkbg.png"
@@ -64,7 +65,11 @@ function displayBackground(num) {
 // used to change background, can do same for img
 let image = [
     "images/chartest1.jpg", 
-    "images/doggo1.png"
+    "images/doggo1.png",
+    "images/doggobite.png",
+    "images/doggoeat.png",
+    "images/doggosqueeze.png",
+    "images/misbow.png"
     ]
 function displayChar(num) {
     let charIndex = num
@@ -72,20 +77,87 @@ function displayChar(num) {
 }
 // displayChar()
 
+
 function advanceDialogue(dialogue, choice) {
     let textIndex = -1
-    textBox.addEventListener("click", () => {
-        console.log("Textbox click")
+    textBox.addEventListener("click", function handler() {
+        // console.log("Textbox click")
         console.log(textIndex)
         if (textIndex === dialogue.length - 1) {
+            textBox.removeEventListener("click", handler)
             choice()
-            clear(textBox, choice)
         } else {
             textIndex++
             textChange(`${dialogue[textIndex]}`)
         }
+        
     })
+    
 }
+
+// textBox.createElement("div")
+
+// tried to put onclick in variable, but cannot call globally to other functions
+// need to work around limitations of addEventListener
+// look into .find
+
+// function moveText (dialogue, choice) {
+//     let textIndex = -1
+//     console.log("Textbox click")
+//     console.log(textIndex)
+//     if (textIndex === dialogue.length - 1) {
+//         choice()
+//         // clear(textBox, choice)
+//         // textBox.removeEventListener("click", choice)
+//     } else {
+//         textIndex++
+//         textChange(`${dialogue[textIndex]}`)
+//     }
+// }
+
+// textBox.addEventListener("click", function() {
+//     advanceDialogue(dialogue, choice)
+// })
+
+// or
+
+// const test1 = textBox.addEventListener("click", function() {
+// //     advanceDialogue = (dialogue, choice) => {
+//     let textIndex = -1
+//     if (textIndex === dialogueOne.length - 1) {
+//         choice()
+//         // clear(textBox, choice)
+//         textBox.removeEventListener("click", choice)
+//     } else {
+//         textIndex++
+//         textChange(`${dialogueOne[textIndex]}`)
+//     }    
+// })
+
+// textBox.removeEventListener("click", test1)
+
+// test1.advanceDialogue(dialogueOne, choiceOne)
+
+// test1.
+
+
+// function advanceDialogue(dialogue, choice) {
+//     let textIndex = -1
+
+//     if (textIndex === dialogue.length - 1) {
+//         choice()
+//         clear(textBox, advanceDialogue)
+//     } else {
+//         textIndex++
+//         textChange(`${dialogue[textIndex]}`)
+//     }
+// }
+
+// textBox.addEventListener("click", function(){
+    
+// })
+
+
 
 // function makeChoice2() {
 //     choiceBoxOne.style.display = "block"
@@ -121,6 +193,10 @@ function optionText3 (text) {
     choiceBoxThree.innerText = text
 }
 
+function advance (option, use) {
+    option.addEventListener("click", use)
+}
+
 function clear (option, use) {
     option.removeEventListener("click", use)
 }
@@ -134,90 +210,208 @@ document.addEventListener("DOMContentLoaded", () => {
     choiceBoxTwo.style.display = "none"
     choiceBoxThree.style.top = "100px"
     optionText3("Press me to start!")
-    choiceBoxThree.addEventListener("click", () => {
-        console.log("to the title screen!")
-        titleScreen()
-        clear(choiceBoxThree, titleScreen)
+    choiceBoxThree.addEventListener("click", titleScreen) 
+        // console.log("to the title screen!")
+        // titleScreen()
         // choiceBoxThree.removeEventListener("click", titleScreen)
-    })
+        // clear(choiceBoxThree, titleScreen)
+    
 })
+
 
 const titleScreen = () => {
     // background.style.backgroundImage = "url('./images/titleimage.jpg')"
+    choiceBoxThree.style.top = "0px"
+    choiceBoxThree.style.display = "none"
+    clear(choiceBoxThree, titleScreen)
     displayBackground(0)
     playMusic(0)
-    choiceBoxThree.style.display = "none"
     titleBox.style.display = "block"
-    titleBox.addEventListener("click", () => {
-        console.log("to scene one!")
-        sceneOne()
-        clear(titleBox, sceneOne)
-    })
+    titleBox.addEventListener("click", sceneOne)
 }
 
+
 const sceneOne = () => {
+    clear(titleBox, sceneOne)
     displayBackground(1)
     displayChar(1)
     charImage.style.display = "block"
     titleBox.style.display = "none"
     textBox.style.display = "block"
-
+    console.log("Scene-1")
     let dialogueOne = [
         "Meet Miso the dog.",
         "No one knows where this little guy came from.",
         "Or where he even wants to go.",
         "But one thing is clear...",
         "He is looking for a home.",
-        "Will you help him?"
+        "Will you help him find one?"
     ]
     advanceDialogue(dialogueOne, choiceOne)
-    clear(textBox, advanceDialogue)
 }
 
 const choiceOne = () => {
+    // clear(textBox, choiceOne)
     choiceBoxOne.style.display = "block"
     choiceBoxTwo.style.display = "block"
     optionText1("Yes")
     optionText2("No")
-    choiceBoxOne.addEventListener("click", () => {
-        sceneOneA()
-        clear(choiceBoxOne, sceneOneA)
-        clear(textBox, advanceDialogue)
-    })
-    choiceBoxTwo.addEventListener("click", () => {
-        sceneOneB()
-        clear(choiceBoxTwo, sceneOneB)
-    })
+    console.log("Choice-1")
+    // choiceBoxOne.addEventListener("click", sceneOneA) 
+    advance(choiceBoxOne, sceneOneA)
+        // choiceBoxOne.removeEventListener("click", handler())
+        // clear(choiceBoxTwo, sceneOneB)
+        // sceneOneA()
+        // textChange("That's great!")
+    
+    // choiceBoxTwo.addEventListener("click", sceneOneB)
+    advance(choiceBoxTwo, sceneOneB)
+        // choiceBoxTwo.removeEventListener("click", handler())
+        // clear(choiceBoxTwo, sceneOneB)
+        // sceneOneB()
+        // textChange("Ha ha, very funny.")
+    // })
 }
 
-
-
-
+///////////////////////////////////////////////////////////////////////////////////////
 
 const sceneOneA = () => {
-    clear(textBox, advanceDialogue)
+    clear(choiceBoxOne, sceneOneA)
+    clear(choiceBoxTwo, sceneOneB)
+    textChange("That's great!")
     console.log("Scene1-A")
-    // choiceBoxOne.removeEventListener("click")
     choiceBoxOne.style.display = "none"
     choiceBoxTwo.style.display = "none"
     let dialogueOneA = [
-        "That's great!",
         "Anyway, you've probably figured it out but just click the text box below to advance the text.",
         "You can pause or play the music using the buttons at the top right of the screen.",
-        "You're choices will guide Miso on his journey.",
+        "Remember, your choices will guide Miso on his journey.",
         "That's all, good luck!",
         "Help Miso reach a happy ending!",
         "Or else..."
     ]
-    advanceDialogue(dialogueOneA, choiceTwo)
+    advanceDialogue(dialogueOneA, sceneTwo)
 }
 
 const sceneOneB = () => {
+    clear(choiceBoxOne, sceneOneA)
+    clear(choiceBoxTwo, sceneOneB)
+    textChange("Ha ha, very funny.")
+    console.log("Scene1-B")
     choiceBoxOne.style.display = "none"
     choiceBoxTwo.style.display = "none"
-    textChange("You monster!")
+    let dialogueOneB = [
+        "Anyway, you've probably figured it out but just click the text box below to advance the text.",
+        "You can pause or play the music using the buttons at the top right of the screen.",
+        "Remember, your choices will guide Miso on his journey.",
+        "That's all, good luck!",
+        "Help Miso reach a happy ending!",
+        "Or else..."
+    ]
+    advanceDialogue(dialogueOneB, sceneTwo)
 }
 
+const sceneTwo = () => {
+    playMusic(2)
+    displayChar(2)
+    textChange(". . .")
+    console.log("Scene-2")
+    let dialogueTwo = [
+        "Miso was spending his day like he would any other day.",
+        "Chewing on any scraps he could find, while frolicking around the local park.",
+        "He had always seen people with their dogs at the park; Always jogging, playing and hanging out.",
+        "Miso wondered if he would ever have someone he could play with...",
+        "He thought of what he would do after finishing his midday snack",
+        "While watching the people at the park, Miso noticed a little girl sitting by herself.",
+        "What should he do?"
+    ]
+    advanceDialogue(dialogueTwo, choiceTwo)
+}
+
+
 const choiceTwo = () => {
-    console.log("you made it")
+    choiceBoxOne.style.display = "block"
+    choiceBoxTwo.style.display = "block"
+    optionText1("Approach the little girl")
+    optionText2("Look at something else")
+    advance(choiceBoxOne, sceneTwoA)
+    advance(choiceBoxTwo, sceneTwoB)
+}
+
+const sceneTwoA = () => {
+    clear(choiceBoxOne, sceneTwoA)
+    clear(choiceBoxTwo, sceneTwoB)
+    choiceBoxOne.style.display = "none"
+    choiceBoxTwo.style.display = "none"
+    displayChar(1)
+    console.log("Scene2-A")
+    textChange(". . .")
+    let dialogueTwoA = [
+        "Miso quietly approaches the little girl...",
+        "She appears to be resting underneath the shade of a large tree.",
+        "She stares blankly at the air, looking at nothing in particular.",
+        "Miso takes note of the other children her age playing nearby, and wonders why the little girl hasn't joined them.",
+        "As Miso walks closer, the little girl notices him.",
+        "Her gaze is locked on to Miso, but her expression remains unchanged.",
+        "Miso decides to..."
+    ]
+    advanceDialogue(dialogueTwoA, choiceTwoAc)
+}
+
+const choiceTwoAc = () => {
+    choiceBoxOne.style.display = "block"
+    choiceBoxTwo.style.display = "block"
+    optionText1("Boldly sit right next to the girl.")
+    optionText2("Sit just out the girl's reach.")
+    advance(choiceBoxOne, sceneThreeA)
+    advance(choiceBoxOne, sceneThreeC)
+}
+
+const sceneTwoB = () => {
+    choiceBoxOne.style.display = "none"
+    choiceBoxTwo.style.display = "none"
+    displayChar(1)
+    textChange(". . .")
+    let dialogueTwoB = [
+        "Miso notices movement at the entrance of the park.",
+        "He sees a pack of older dogs leaving together in a group of three.",
+        '"Do they have no home or owners like me?" Miso thought to himself.',
+        "He quickly decides to follow them and find out what they're up to.",
+        "He follows them into a side alley between two large buildings.",
+        "Before they notice Miso, he decides to..."
+    ]
+    advanceDialogue(dialogueTwoB, choiceTwoBc)
+}
+
+const choiceTwoBc = () => {
+    choiceBoxOne.style.display = "block"
+    choiceBoxTwo.style.display = "block"
+    optionText1("Gather his courage and introduce himself.")
+    optionText2("Turn back around before they notice.")
+    advance(choiceBoxOne, sceneThreeB)
+    advance(choiceBoxOne, sceneThreeD)
+}
+
+const sceneThreeA = () => {
+    clear(choiceBoxOne, sceneThreeA)
+    clear(choiceBoxTwo, sceneThreeC)
+    console.log("Scene3-A")
+}
+
+const sceneThreeC = () => {
+    clear(choiceBoxOne, sceneThreeA)
+    clear(choiceBoxTwo, sceneThreeC)
+    console.log("Scene3-C")
+}
+
+const sceneThreeB = () => {
+    clear(choiceBoxOne, sceneThreeB)
+    clear(choiceBoxTwo, sceneThreeD)
+    console.log("Scene3-A")
+}
+
+const sceneThreeD = () => {
+    clear(choiceBoxOne, sceneThreeB)
+    clear(choiceBoxTwo, sceneThreeD)
+    console.log("Scene3-C")
 }
