@@ -9,32 +9,18 @@ const choiceBoxThree = document.getElementById("option3")
 const titleText = document.getElementById("title-text")
 const titleSub = document.getElementById("title-subtext")
 
-
-
-// console.log("test")
-// ./music/
-// let music = new Audio("music/titlemusic.mp3")
-// let musicIndex = 0
-// function playMusic() {
-//     music.play()
-//     music.loop = true
-//     music.volume = 0.2
-// }
-
-// const bgMusic = document.createElement(Audio)
-
 // Music in an array to be easily referenced
 const musicPlaylist = [
     "music/titlemusic.mp3", 
-    "music/noonsunny.mp3", 
+    "music/happy.mp3", 
     "music/whimsy.mp3",
-    "music/tense.mp3"
+    "music/tense.mp3",
+    "music/mipha.mp3"
     ]
 
 
 // function that can access the array, loop the music, control the music via buttons, with a parameter that can easily change the music later
 function playMusic (num) {
-    // const music = new Audio()
     const music = document.getElementById("bgm")
     let playlistIndex = num
     music.src = `${musicPlaylist[playlistIndex]}`
@@ -55,13 +41,17 @@ let backgroundImage = [
     "images/titleimage.jpg",  
     "images/parkbg.png",
     "images/alley.jpg",
-    "images/back.jpg"
+    "images/back.jpg",
+    "images/neutralend.jpg",
+    "images/brush.jpg",
+    "images/neturalending.jpg",
+    "images/home.jpg",
+    "images/Goodend.jpg"
     ]
 function displayBackground(num) {
     let bgIndex = num
     background.style.backgroundImage = `url(${backgroundImage[bgIndex]})`
 }
-// displayBackground()
 
 
 // Used to change character assets, decided to change the background rather than an image, mostly because of how the divs were set up, and because I dont expect the user to interact with the character asset
@@ -77,15 +67,12 @@ function displayChar(num) {
     let charIndex = num
     charImage.style.backgroundImage = `url(${image[charIndex]})`
 }
-// displayChar()
 
 // Most important function, reads each "scene's" dialogue and lets the user advance the text by clicking on the text box
 // Once the end of a dialogue array has been reached, the choice parameter will use the text box to move to the next scene
 function advanceDialogue(dialogue, choice) {
     let textIndex = -1
     textBox.addEventListener("click", function handler() {
-        // console.log("Textbox click")
-        console.log(textIndex)
         if (textIndex === dialogue.length - 1) {
             textBox.removeEventListener("click", handler)
             choice()
@@ -93,85 +80,8 @@ function advanceDialogue(dialogue, choice) {
             textIndex++
             textChange(`${dialogue[textIndex]}`)
         }
-        
     })
-    
 }
-
-// textBox.createElement("div")
-
-// tried to put onclick in variable, but cannot call globally to other functions
-// need to work around limitations of addEventListener
-// look into .find
-
-// function moveText (dialogue, choice) {
-//     let textIndex = -1
-//     console.log("Textbox click")
-//     console.log(textIndex)
-//     if (textIndex === dialogue.length - 1) {
-//         choice()
-//         // clear(textBox, choice)
-//         // textBox.removeEventListener("click", choice)
-//     } else {
-//         textIndex++
-//         textChange(`${dialogue[textIndex]}`)
-//     }
-// }
-
-// textBox.addEventListener("click", function() {
-//     advanceDialogue(dialogue, choice)
-// })
-
-// or
-
-// const test1 = textBox.addEventListener("click", function() {
-// //     advanceDialogue = (dialogue, choice) => {
-//     let textIndex = -1
-//     if (textIndex === dialogueOne.length - 1) {
-//         choice()
-//         // clear(textBox, choice)
-//         textBox.removeEventListener("click", choice)
-//     } else {
-//         textIndex++
-//         textChange(`${dialogueOne[textIndex]}`)
-//     }    
-// })
-
-// textBox.removeEventListener("click", test1)
-
-// test1.advanceDialogue(dialogueOne, choiceOne)
-
-// test1.
-
-
-// function advanceDialogue(dialogue, choice) {
-//     let textIndex = -1
-
-//     if (textIndex === dialogue.length - 1) {
-//         choice()
-//         clear(textBox, advanceDialogue)
-//     } else {
-//         textIndex++
-//         textChange(`${dialogue[textIndex]}`)
-//     }
-// }
-
-// textBox.addEventListener("click", function(){
-    
-// })
-
-
-
-// function makeChoice2() {
-//     choiceBoxOne.style.display = "block"
-//     choiceBoxTwo.style.display = "block"
-// }
-
-// function makeChoice3() {
-//     choiceBoxOne.style.display = "block"
-//     choiceBoxTwo.style.display = "block"
-//     choiceBoxThree.style.display = "block"
-// }
 
 function hideChoice() {
     choiceBoxOne.style.display = "none"
@@ -229,6 +139,8 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const titleScreen = () => {
     clear(titleBox, badEnd)
+    clear(titleBox, neutralEnd)
+    clear(titleBox, goodEnd)
     changeTitle("A DOG'S LIFE")
     changeSubText("'click anywhere to continue'")
     choiceBoxThree.style.top = "0px"
@@ -247,7 +159,6 @@ const sceneOne = () => {
     charImage.style.display = "block"
     titleBox.style.display = "none"
     textBox.style.display = "block"
-    console.log("Scene-1")
     textChange(". . .")
     let dialogueOne = [
         "Meet Miso the dog.",
@@ -265,21 +176,15 @@ const choiceOne = () => {
     choiceBoxTwo.style.display = "block"
     optionText1("Yes")
     optionText2("No")
-    console.log("Choice-1")
     advance(choiceBoxOne, sceneOneA)
     advance(choiceBoxTwo, sceneOneB)
 }
-
-///////////////////////////////////////////////////////////////////////////////////////
 
 const sceneOneA = () => {
     clear(choiceBoxOne, sceneOneA)
     clear(choiceBoxTwo, sceneOneB)
     textChange("That's great!")
-    console.log("Scene1-A")
     hideChoice()
-    // choiceBoxOne.style.display = "none"
-    // choiceBoxTwo.style.display = "none"
     let dialogueOneA = [
         "Anyway, you've probably figured it out but just click the text box below to advance the text.",
         "You can pause or play the music using the buttons at the top right of the screen.",
@@ -295,10 +200,7 @@ const sceneOneB = () => {
     clear(choiceBoxOne, sceneOneA)
     clear(choiceBoxTwo, sceneOneB)
     textChange("Ha ha, very funny.")
-    console.log("Scene1-B")
     hideChoice()
-    // choiceBoxOne.style.display = "none"
-    // choiceBoxTwo.style.display = "none"
     let dialogueOneB = [
         "Anyway, you've probably figured it out but just click the text box below to advance the text.",
         "You can pause or play the music using the buttons at the top right of the screen.",
@@ -314,7 +216,6 @@ const sceneTwo = () => {
     playMusic(2)
     displayChar(2)
     textChange(". . .")
-    console.log("Scene-2")
     let dialogueTwo = [
         "Miso was spending his day like he would any other day.",
         "Chewing on any scraps he could find, while frolicking around the local park.",
@@ -342,7 +243,6 @@ const sceneTwoA = () => {
     clear(choiceBoxTwo, sceneTwoB)
     hideChoice()
     displayChar(1)
-    console.log("Scene2-A")
     textChange(". . .")
     let dialogueTwoA = [
         "Miso quietly approaches the little girl...",
@@ -370,7 +270,6 @@ const sceneTwoB = () => {
     clear(choiceBoxTwo, sceneTwoB)
     hideChoice()
     displayChar(1)
-    console.log("Scene2-B")
     textChange(". . .")
     let dialogueTwoB = [
         "Miso notices movement at the entrance of the park.",
@@ -398,7 +297,6 @@ const sceneThreeA = () => {
     hideChoice()
     clear(choiceBoxOne, sceneThreeA)
     clear(choiceBoxTwo, sceneThreeC)
-    console.log("Scene3-A")
     displayChar(5)
     textChange(". . .")
     let dialogueThreeA = [
@@ -416,7 +314,6 @@ const sceneThreeC = () => {
     hideChoice()
     clear(choiceBoxOne, sceneThreeA)
     clear(choiceBoxTwo, sceneThreeC)
-    console.log("Scene3-C")
     displayChar(5)
     textChange(". . .")
     let dialogueThreeC = [
@@ -437,7 +334,6 @@ const sceneThreeB = () => {
     clear(choiceBoxOne, sceneThreeB)
     clear(choiceBoxTwo, sceneThreeD)
     displayBackground(3)
-    console.log("Scene3-B")
     textChange(". . .")
     let dialogueThreeB = [
         "Miso trots along closer to the trio of dogs in the alley.",
@@ -456,7 +352,6 @@ const sceneThreeD = () => {
     hideChoice()
     clear(choiceBoxOne, sceneThreeB)
     clear(choiceBoxTwo, sceneThreeD)
-    console.log("Scene3-D")
     textChange(". . .")
     let dialogueThreeD = [
         "After thinking for a few moments, Miso had a feeling meeting the dogs might not be such a good idea.",
@@ -471,8 +366,6 @@ const sceneThreeD = () => {
     ]
     advanceDialogue(dialogueThreeD, choiceFourA)
 }
-
-// ////////////////////// //
 
 const choiceThreeAc = () => {
     choiceBoxOne.style.display = "block"
@@ -496,7 +389,6 @@ const sceneFourA = () => {
     hideChoice()
     clear(choiceBoxOne, sceneFourA)
     clear(choiceBoxTwo, sceneFourC)
-    console.log("Scene4-A")
     displayChar(4)
     textChange("! ! !")
     let dialogueFourA = [
@@ -504,7 +396,7 @@ const sceneFourA = () => {
         '"You\'re like a tiny orange marshmallow!" laughed the little girl.',
         "Her smile grows even wider the more she pets Miso.",
         "The girl continues to pet Miso for a long time.",
-        "Before Miso can realize it, an old man approaches the two of them.",
+        "Before Miso realizes it, an old man approaches the two of them.",
         '"I guess it\'s time for me to go," the girl said in a quiet voice.',
         '"Would you like to come with me?" asked the little girl.',
         "Miso decides to..."
@@ -516,7 +408,6 @@ const sceneFourC = () => {
     hideChoice()
     clear(choiceBoxOne, sceneFourA)
     clear(choiceBoxTwo, sceneFourC)
-    console.log("Scene4-C")
     displayChar(1)
     textChange(". . .")
     let dialogueFourC = [
@@ -534,7 +425,6 @@ const sceneFourB = () => {
     hideChoice()
     clear(choiceBoxOne, sceneFourB)
     clear(choiceBoxTwo, sceneFourD)
-    console.log("Scene4-B")
     displayChar(2)
     displayBackground(2)
     playMusic(3)
@@ -559,7 +449,6 @@ const sceneFourD = () => {
     hideChoice()
     clear(choiceBoxOne, sceneFourB)
     clear(choiceBoxTwo, sceneFourD)
-    console.log("Scene4-D")
     displayChar(1)
     textChange(". . .")
     let dialogueFourD = [
@@ -595,11 +484,43 @@ const choiceFourB = () => {
 }
 
 const sceneHome = () => {
-
+    hideChoice()
+    clear(choiceBoxOne, sceneHome)
+    clear(choiceBoxTwo, sceneStay)
+    displayBackground(7)
+    playMusic(1)
+    displayChar(3)
+    textChange(". . .")
+    let sceneHomeDialogue = [
+        "Miso, the girl, and her grandfather arrive at their home.",
+        "She quickly takes Miso up to her room.",
+        "The girl moves about frantically, trying to prepare this and that to make Miso comfortable.",
+        "Back at the park she looked so lethargic, but now she is moving about as much as any other child.",
+        "The girl's grandfather pops his head in to remind her to take it easy.",
+        "The girl pays him no mind, and prepares Miso a delicious meal.",
+        "Miso, having never been doted on before, bounces happily around his very own food dish.",
+        "Miso now realizing that he had found himself home, decides to..."
+    ]
+    advanceDialogue(sceneHomeDialogue, sceneHomeChoice)
 }
 
 const sceneStay = () => {
-
+    hideChoice()
+    clear(choiceBoxTwo, sceneStay)
+    displayBackground(1)
+    playMusic(4)
+    displayChar(1)
+    textChange(". . .")
+    let sceneStayDialogue = [
+        "Now Miso was all alone.",
+        "Back to where it all started.",
+        "He wanders around the park, no longer populated by the people from before.",
+        '"Maybe being all by myself isnt all that bad." Miso thinks to himself, "Maybe I can be happy on my own."',
+        "Looking around, he finds a path that he never noticed before.",
+        "It leads him toward a dense forest, a place that looks untouched by others.",
+        "With nothing in the world but himself, Miso decides to..."
+    ]
+    advanceDialogue(sceneStayDialogue, sceneStayChoice)
 }
 
 const scenePack = () => {
@@ -609,7 +530,7 @@ const scenePack = () => {
     textChange(". . .")
     let scenePackDialogue = [
         "Miso cries in vain for his new friends to come back and help him.",
-        'The man still holding onto Miso says to no one in particular, "At least I caught one of you mutts today."',
+        'The man still holding onto Miso mumbles no one in particular, "At least I caught one of you mutts today."',
         'Before Miso can even wonder what will happen to him, the man says, "You\'re going to the pound, little troublemaker!"',
         '"The pound?" Miso thinks to himself, "What does that even mean?"',
         "As if to answer him, a man in a white jumpsuit shows up a few hours later.",
@@ -619,10 +540,43 @@ const scenePack = () => {
     advanceDialogue(scenePackDialogue, scenePackChoice)
 }
 
+const sceneHomeChoice = () => {
+    choiceBoxTwo.style.display = "block"
+    optionText2("Live happily")
+    advance(choiceBoxTwo, sceneHomeFinale)
+}
+
 const scenePackChoice = () => {
     choiceBoxTwo.style.display = "block"
     optionText2("Accept his fate...")
     advance(choiceBoxTwo, scenePackFinale)
+}
+
+const sceneStayChoice = () => {
+    displayBackground(5)
+    choiceBoxTwo.style.display = "block"
+    optionText2("Move forward by himself")
+    advance(choiceBoxTwo, sceneStayFinale)
+}
+
+const sceneHomeFinale = () => {
+    hideChoice()
+    clear(choiceBoxTwo, sceneHomeFinale)
+    displayChar(4)
+    textChange(". . .")
+    let sceneHomeFinaleDialogue = [
+        "Miso spends the rest of his days following the little girl around.",
+        "Over time, she explains that she only has her grandpa.",
+        "She always felt lonely because she was too sick to go out and play with other kids.", 
+        "That's why the day she met Miso, was the happiest day of her life.",
+        "Finally a friend for her to call her own.",
+        "And Miso felt the same way.",
+        "He was finally no longer all by himself.",
+        "He had a home with people who cared about him.",
+        "Plus, the girl was always spoiling him with the best food.",
+        "It's as if all of Miso's wishes came true."
+    ]
+    advanceDialogue(sceneHomeFinaleDialogue, goodEnd)
 }
 
 const scenePackFinale = () => {
@@ -633,7 +587,8 @@ const scenePackFinale = () => {
     let scenePackFinaleDialogue = [
         "Miso is taken into a building that has dozens of dogs like him, caged up in metal boxes.",
         '"Oh no... what\'s going to happen to me?" Miso worried.',
-        'A lady walking around the cages shouts, "Dinner time!" And starts pouring food into the bowls of each cage.',
+        'A lady walking around the cages shouts, "Dinner time!"', 
+        "And starts pouring food into the bowls of each cage.",
         '"At least I\'m being fed..." said Miso, as he was trying to comfort himself.',
         "Hours, then days, then weeks fly by.",
         "Many people come in and out of the building, and sometimes, dogs will even leave with them.",
@@ -644,12 +599,53 @@ const scenePackFinale = () => {
     advanceDialogue(scenePackFinaleDialogue, badEnd)
 }
 
+const sceneStayFinale = () => {
+    hideChoice()
+    clear(choiceBoxTwo, sceneStayFinale)
+    displayBackground(6)
+    displayChar(1)
+    textChange(". . .")
+    let sceneStayFinaleDialogue = [
+        "Miso travels from place to place.",
+        "Never staying in one area for long.",
+        "He meets many different people.",
+        "But he never tries to make them a companion.",
+        "He is always on the move, to see more, to do more.",
+        "But Miso was never satisfied, he felt like he was missing something.",
+        "A place to call his own.",
+        "A family that could welcome him home.",
+        "...Although he could never have those things.",
+        "At least he could still move forward."
+    ]
+    advanceDialogue(sceneStayFinaleDialogue, neutralEnd)
+}
+
 const badEnd = () => {
-    displayBackground(-1)
+    displayBackground(3)
     displayChar(-1)
     titleBox.style.display = "block"
     titleBox.addEventListener("click", titleScreen)
     textBox.style.display = "none"
     changeTitle("BAD END")
+    changeSubText("'click anywhere to restart'")
+}
+
+const neutralEnd = () => {
+    displayBackground(4)
+    displayChar(-1)
+    titleBox.style.display = "block"
+    titleBox.addEventListener("click", titleScreen)
+    textBox.style.display = "none"
+    changeTitle("NEUTRAL END")
+    changeSubText("'click anywhere to restart'")
+}
+
+const goodEnd = () => {
+    displayBackground(8)
+    displayChar(-1)
+    titleBox.style.display = "block"
+    titleBox.addEventListener("click", titleScreen)
+    textBox.style.display = "none"
+    changeTitle("GOOD END")
     changeSubText("'click anywhere to restart'")
 }
