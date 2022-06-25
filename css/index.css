@@ -87,11 +87,11 @@ h2 {
 #text-box {
     display: block;
     position: absolute;
-    left: 13px;
+    left: 16px;
     bottom: 10px;
     height: 135px;
-    width: 1160px;
-    padding: 20px 20px 10px 40px;
+    width: 1150px;
+    padding: 20px 20px 10px 60px;
     overflow: auto;
     cursor: pointer;
     font-size: 30px;
